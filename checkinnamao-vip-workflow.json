@@ -38,13 +38,17 @@
     },
     {
       "parameters": {
-        "operation": "insert",
-        "tableId": "leads_vip_pousada",
+        "operation": "insertRow",
+        "tableId": {
+          "__rl": true,
+          "value": "leads_vip_pousada",
+          "mode": "name"
+        },
         "dataToSend": "autoMapInputData"
       },
       "id": "a1b2c3d4-0004-0004-0004-000000000004",
       "name": "Salvar no Data Table",
-      "type": "n8n-nodes-base.n8nTrainingCustomersJsV2",
+      "type": "n8n-nodes-base.n8nTable",
       "typeVersion": 1,
       "position": [-20, 0]
     },
@@ -148,8 +152,12 @@
     },
     {
       "parameters": {
-        "operation": "update",
-        "tableId": "leads_vip_pousada",
+        "operation": "updateRow",
+        "tableId": {
+          "__rl": true,
+          "value": "leads_vip_pousada",
+          "mode": "name"
+        },
         "rowId": "={{ $('Salvar no Data Table').item.json.id }}",
         "dataToSend": "defineBelow",
         "fieldsUi": {
@@ -167,7 +175,7 @@
       },
       "id": "a1b2c3d4-0011-0011-0011-000000000011",
       "name": "Atualizar Status Data Table",
-      "type": "n8n-nodes-base.n8nTrainingCustomersJsV2",
+      "type": "n8n-nodes-base.n8nTable",
       "typeVersion": 1,
       "position": [980, 0],
       "onError": "continueRegularOutput"
