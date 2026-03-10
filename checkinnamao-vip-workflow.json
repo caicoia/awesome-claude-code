@@ -28,7 +28,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// =============================================\n// PREPARAR E NORMALIZAR DADOS\n// =============================================\nconst data = $input.item.json;\n\nreturn {\n  nome:          String(data.nome         || '').trim(),\n  email:         String(data.email        || '').trim().toLowerCase(),\n  whatsapp:      String(data.whatsapp     || '').trim(),\n  pousada_nome:  data.pousada_nome ? String(data.pousada_nome).trim() : null,\n  quartos:       data.quartos     ? String(data.quartos).trim()     : null,\n  cidade:        data.cidade      ? String(data.cidade).trim()      : null,\n  status:        'novo',\n  diagnostico_enviado: false,\n  url_origem:    data.url_origem  || null,\n  user_agent:    data.user_agent  || null\n};"
+        "jsCode": "// =============================================\n// PREPARAR E NORMALIZAR DADOS\n// =============================================\nconst data = $input.item.json;\n\nreturn {\n  nome:                String(data.nome         || '').trim(),\n  email:               String(data.email        || '').trim().toLowerCase(),\n  whatsapp:            String(data.whatsapp     || '').trim(),\n  pousada_nome:        data.pousada_nome ? String(data.pousada_nome).trim() : '',\n  quartos:             data.quartos     ? String(data.quartos).trim()     : '',\n  cidade:              data.cidade      ? String(data.cidade).trim()      : '',\n  status:              'novo',\n  diagnostico_enviado: false,\n  url_origem:          data.url_origem  || '',\n  criado_em:           new Date().toISOString()\n};"
       },
       "id": "a1b2c3d4-0003-0003-0003-000000000003",
       "name": "Preparar Dados",
@@ -38,19 +38,15 @@
     },
     {
       "parameters": {
+        "operation": "insert",
         "tableId": "leads_vip_pousada",
         "dataToSend": "autoMapInputData"
       },
       "id": "a1b2c3d4-0004-0004-0004-000000000004",
-      "name": "Salvar no Supabase",
-      "type": "n8n-nodes-base.supabase",
+      "name": "Salvar no Data Table",
+      "type": "n8n-nodes-base.n8nTrainingCustomersJsV2",
       "typeVersion": 1,
-      "position": [-20, 0],
-      "credentials": {
-        "supabaseApi": {
-          "name": "Supabase account"
-        }
-      }
+      "position": [-20, 0]
     },
     {
       "parameters": {
@@ -95,7 +91,7 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ { success: true, message: 'Cadastro realizado com sucesso!', id: $('Salvar no Supabase').item.json.id } }}",
+        "responseBody": "={{ { success: true, message: 'Cadastro realizado com sucesso!' } }}",
         "options": {}
       },
       "id": "a1b2c3d4-0007-0007-0007-000000000007",
@@ -152,39 +148,28 @@
     },
     {
       "parameters": {
+        "operation": "update",
         "tableId": "leads_vip_pousada",
+        "rowId": "={{ $('Salvar no Data Table').item.json.id }}",
+        "dataToSend": "defineBelow",
         "fieldsUi": {
           "fieldValues": [
             {
               "fieldId": "diagnostico_enviado",
-              "fieldValue": true
+              "fieldValue": "true"
             },
             {
               "fieldId": "status",
               "fieldValue": "diagnostico_enviado"
             }
           ]
-        },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "id",
-              "condition": "eq",
-              "keyValue": "={{ $('Salvar no Supabase').item.json.id }}"
-            }
-          ]
         }
       },
       "id": "a1b2c3d4-0011-0011-0011-000000000011",
-      "name": "Atualizar Status Supabase",
-      "type": "n8n-nodes-base.supabase",
+      "name": "Atualizar Status Data Table",
+      "type": "n8n-nodes-base.n8nTrainingCustomersJsV2",
       "typeVersion": 1,
       "position": [980, 0],
-      "credentials": {
-        "supabaseApi": {
-          "name": "Supabase account"
-        }
-      },
       "onError": "continueRegularOutput"
     }
   ],
@@ -199,9 +184,9 @@
       ]
     },
     "Preparar Dados": {
-      "main": [[{ "node": "Salvar no Supabase", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Salvar no Data Table", "type": "main", "index": 0 }]]
     },
-    "Salvar no Supabase": {
+    "Salvar no Data Table": {
       "main": [[
         { "node": "Email Confirmação → Cliente", "type": "main", "index": 0 },
         { "node": "Notificação → Dono",          "type": "main", "index": 0 }
@@ -220,7 +205,7 @@
       "main": [[{ "node": "Email Diagnóstico → Cliente", "type": "main", "index": 0 }]]
     },
     "Email Diagnóstico → Cliente": {
-      "main": [[{ "node": "Atualizar Status Supabase", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Atualizar Status Data Table", "type": "main", "index": 0 }]]
     }
   },
   "active": false,
