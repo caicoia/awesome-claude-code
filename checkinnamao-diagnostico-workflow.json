@@ -54,6 +54,47 @@
 
     {
       "parameters": {
+        "operation": "getAll",
+        "tableId": {
+          "__rl": true,
+          "value": "checkin_mao",
+          "mode": "name"
+        },
+        "returnAll": false,
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "field": "email",
+              "condition": "Equals",
+              "value": "={{ $('Preparar Dados').item.json.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d1a90008-0008-0008-0008-000000000008",
+      "name": "Buscar Lead VIP",
+      "type": "n8n-nodes-base.n8nTable",
+      "typeVersion": 1,
+      "position": [20, 0],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+
+    {
+      "parameters": {
+        "jsCode": "// =============================================\n// VINCULAR DIAGNÓSTICO AO LEAD VIP\n// =============================================\n// Recupera os dados do diagnóstico já normalizados\nconst diag = $('Preparar Dados').item.json;\n\n// Tenta extrair o ID do lead VIP encontrado\nlet leadVipId = null;\ntry {\n  const items = $input.all();\n  if (items.length > 0 && items[0].json && items[0].json.id) {\n    leadVipId = String(items[0].json.id);\n  }\n} catch (e) {\n  // Nenhum lead encontrado com esse e-mail — ok, segue sem vínculo\n}\n\nconsole.log('Lead VIP encontrado:', leadVipId ? 'Sim (id=' + leadVipId + ')' : 'Não');\n\nreturn {\n  ...diag,\n  lead_vip_id: leadVipId\n};"
+      },
+      "id": "d1a90009-0009-0009-0009-000000000009",
+      "name": "Vincular com Lead VIP",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 0]
+    },
+
+    {
+      "parameters": {
         "operation": "insertRow",
         "tableId": {
           "__rl": true,
@@ -66,7 +107,7 @@
       "name": "Salvar no Data Table",
       "type": "n8n-nodes-base.n8nTable",
       "typeVersion": 1,
-      "position": [20, 0]
+      "position": [460, 0]
     },
 
     {
@@ -74,14 +115,14 @@
         "fromEmail": "contato@checkinnamao.com.br",
         "toEmail": "contato@checkinnamao.com.br",
         "subject": "={{ '📋 Novo Diagnóstico: ' + $json.email }}",
-        "html": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <style>\n    body { margin:0; padding:20px; background:#F3F4F6; font-family:Arial,sans-serif; }\n    .card { max-width:600px; margin:0 auto; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,.09); }\n    .header { background:#00ABA3; padding:22px 28px; }\n    .header h2 { color:#fff; margin:0; font-size:18px; }\n    .header p  { color:rgba(255,255,255,.8); margin:4px 0 0; font-size:13px; }\n    .body { padding:24px 28px; }\n    table { width:100%; border-collapse:collapse; }\n    tr:last-child td { border-bottom:none; }\n    td { padding:9px 10px; font-size:13.5px; border-bottom:1px solid #E5E7EB; vertical-align:top; }\n    td:first-child { font-weight:700; color:#374151; width:38%; }\n    td:last-child  { color:#4B5563; }\n    .textarea-row td:last-child { background:#F9FAFB; border-radius:6px; font-style:italic; color:#374151; }\n    .footer-note { margin-top:16px; font-size:12px; color:#9CA3AF; text-align:center; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <div class=\"header\">\n      <h2>📋 Novo Diagnóstico recebido</h2>\n      <p>Checkin Na Mão — {{ $now.format('DD/MM/YYYY HH:mm') }}</p>\n    </div>\n    <div class=\"body\">\n      <table>\n        <tr><td>E-mail</td><td>{{ $json.email }}</td></tr>\n        <tr><td>Gestão de reservas</td><td>{{ $json.gestao_reservas || '—' }}</td></tr>\n        <tr><td>Reservas / mês</td><td>{{ $json.reservas_mes || '—' }}</td></tr>\n        <tr><td>Taxa de ocupação</td><td>{{ $json.taxa_ocupacao || '—' }}</td></tr>\n        <tr><td>Canais de venda</td><td>{{ $json.canais_venda || '—' }}</td></tr>\n        <tr><td>Principal dificuldade</td><td>{{ $json.principal_dificuldade || '—' }}</td></tr>\n        <tr><td>Tem equipe?</td><td>{{ $json.tem_equipe || '—' }}</td></tr>\n        <tr><td>O que impede crescer</td><td>{{ $json.impede_crescer || '—' }}</td></tr>\n        <tr class=\"textarea-row\"><td>Expectativa</td><td>{{ $json.expectativa || '(não respondeu)' }}</td></tr>\n        <tr><td>URL origem</td><td><a href=\"{{ $json.url_origem }}\">{{ $json.url_origem }}</a></td></tr>\n      </table>\n      <p class=\"footer-note\">Este e-mail foi gerado automaticamente pelo workflow de diagnóstico do Checkin Na Mão.</p>\n    </div>\n  </div>\n</body>\n</html>",
+        "html": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <style>\n    body { margin:0; padding:20px; background:#F3F4F6; font-family:Arial,sans-serif; }\n    .card { max-width:600px; margin:0 auto; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,.09); }\n    .header { background:#00ABA3; padding:22px 28px; }\n    .header h2 { color:#fff; margin:0; font-size:18px; }\n    .header p  { color:rgba(255,255,255,.8); margin:4px 0 0; font-size:13px; }\n    .body { padding:24px 28px; }\n    table { width:100%; border-collapse:collapse; }\n    tr:last-child td { border-bottom:none; }\n    td { padding:9px 10px; font-size:13.5px; border-bottom:1px solid #E5E7EB; vertical-align:top; }\n    td:first-child { font-weight:700; color:#374151; width:38%; }\n    td:last-child  { color:#4B5563; }\n    .textarea-row td:last-child { background:#F9FAFB; border-radius:6px; font-style:italic; color:#374151; }\n    .footer-note { margin-top:16px; font-size:12px; color:#9CA3AF; text-align:center; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <div class=\"header\">\n      <h2>📋 Novo Diagnóstico recebido</h2>\n      <p>Checkin Na Mão — {{ $now.format('DD/MM/YYYY HH:mm') }}</p>\n    </div>\n    <div class=\"body\">\n      <table>\n        <tr><td>E-mail</td><td>{{ $json.email }}</td></tr>\n        <tr><td>Lead VIP vinculado</td><td>{{ $json.lead_vip_id ? '✅ id ' + $json.lead_vip_id : '⚠️ Não encontrado' }}</td></tr>\n        <tr><td>Gestão de reservas</td><td>{{ $json.gestao_reservas || '—' }}</td></tr>\n        <tr><td>Reservas / mês</td><td>{{ $json.reservas_mes || '—' }}</td></tr>\n        <tr><td>Taxa de ocupação</td><td>{{ $json.taxa_ocupacao || '—' }}</td></tr>\n        <tr><td>Canais de venda</td><td>{{ $json.canais_venda || '—' }}</td></tr>\n        <tr><td>Principal dificuldade</td><td>{{ $json.principal_dificuldade || '—' }}</td></tr>\n        <tr><td>Tem equipe?</td><td>{{ $json.tem_equipe || '—' }}</td></tr>\n        <tr><td>O que impede crescer</td><td>{{ $json.impede_crescer || '—' }}</td></tr>\n        <tr class=\"textarea-row\"><td>Expectativa</td><td>{{ $json.expectativa || '(não respondeu)' }}</td></tr>\n        <tr><td>URL origem</td><td><a href=\"{{ $json.url_origem }}\">{{ $json.url_origem }}</a></td></tr>\n      </table>\n      <p class=\"footer-note\">Este e-mail foi gerado automaticamente pelo workflow de diagnóstico do Checkin Na Mão.</p>\n    </div>\n  </div>\n</body>\n</html>",
         "options": {}
       },
       "id": "d1a90006-0006-0006-0006-000000000006",
       "name": "Notificar Equipe",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
-      "position": [240, 0],
+      "position": [680, 0],
       "credentials": {
         "smtp": {
           "name": "SMTP account"
@@ -100,7 +141,7 @@
       "name": "Resposta 200 - OK",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [460, 0]
+      "position": [900, 0]
     }
   ],
 
@@ -117,6 +158,16 @@
       ]
     },
     "Preparar Dados": {
+      "main": [
+        [{ "node": "Buscar Lead VIP", "type": "main", "index": 0 }]
+      ]
+    },
+    "Buscar Lead VIP": {
+      "main": [
+        [{ "node": "Vincular com Lead VIP", "type": "main", "index": 0 }]
+      ]
+    },
+    "Vincular com Lead VIP": {
       "main": [
         [{ "node": "Salvar no Data Table", "type": "main", "index": 0 }]
       ]
