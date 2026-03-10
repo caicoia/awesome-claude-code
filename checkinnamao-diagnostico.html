@@ -492,6 +492,72 @@
 
     .field-wrap textarea { resize: vertical; min-height: 100px; }
 
+    /* Email confirmation block */
+    .email-confirm-block {
+      background: linear-gradient(135deg, var(--teal-l) 0%, #f0fafa 100%);
+      border: 1.5px solid rgba(0,171,163,.25);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .email-confirm-header {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      margin-bottom: .75rem;
+    }
+
+    .email-confirm-header .icon-wrap {
+      width: 34px;
+      height: 34px;
+      background: var(--teal);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: .95rem;
+      flex-shrink: 0;
+    }
+
+    .email-confirm-header h3 {
+      font-size: .88rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.2;
+    }
+
+    .email-confirm-header p {
+      font-size: .75rem;
+      color: var(--gray-600);
+      margin-top: .1rem;
+    }
+
+    .email-confirm-block .field-wrap label {
+      color: var(--teal-d);
+      font-weight: 700;
+    }
+
+    .email-confirm-block .field-wrap input {
+      border-color: rgba(0,171,163,.35);
+      background: var(--white);
+      font-size: .95rem;
+    }
+
+    .email-confirm-block .field-wrap input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0,171,163,.12);
+    }
+
+    .email-confirm-note {
+      display: flex;
+      align-items: flex-start;
+      gap: .4rem;
+      margin-top: .65rem;
+      font-size: .75rem;
+      color: var(--teal-d);
+      font-weight: 500;
+    }
+
     /* Honeypot */
     .hp-field { display: none !important; }
 
@@ -744,7 +810,7 @@
         <div class="form-card-top-icon">📊</div>
         <div class="form-card-top-text">
           <h2>Diagnóstico da sua Pousada</h2>
-          <p>10 perguntas rápidas · Resultado personalizado</p>
+          <p>8 perguntas rápidas · Resultado personalizado</p>
         </div>
       </div>
 
@@ -784,10 +850,20 @@
           <div class="form-step active" id="step1">
             <div class="step-section-title">Etapa 1 de 3 — Sua pousada</div>
 
-            <div class="question-block">
+            <div class="email-confirm-block">
+              <div class="email-confirm-header">
+                <div class="icon-wrap">🔗</div>
+                <div>
+                  <h3>Confirme seu e-mail para começar</h3>
+                  <p>Usaremos para vincular suas respostas ao seu cadastro VIP</p>
+                </div>
+              </div>
               <div class="field-wrap">
-                <label for="email">Seu e-mail (para receber o resultado)</label>
-                <input type="email" id="email" name="email" placeholder="seu@email.com.br" required />
+                <label for="email">E-mail do seu cadastro VIP</label>
+                <input type="email" id="email" name="email" placeholder="o mesmo e-mail que você usou no cadastro" required />
+              </div>
+              <div class="email-confirm-note">
+                🔒 Mesmo e-mail do formulário anterior — assim vinculamos suas respostas ao seu perfil.
               </div>
             </div>
 
@@ -825,41 +901,7 @@
               </div>
             </div>
 
-            <div class="question-block">
-              <div class="question-label">
-                <span class="q-num">2</span>
-                Quantos quartos tem sua pousada?
-              </div>
-              <div class="options-grid two-col">
-                <label class="opt-label">
-                  <input type="radio" name="num_quartos" value="1 a 5 quartos" />
-                  <span class="opt-icon"></span>
-                  <span class="opt-text">1 a 5 quartos</span>
-                </label>
-                <label class="opt-label">
-                  <input type="radio" name="num_quartos" value="6 a 10 quartos" />
-                  <span class="opt-icon"></span>
-                  <span class="opt-text">6 a 10 quartos</span>
-                </label>
-                <label class="opt-label">
-                  <input type="radio" name="num_quartos" value="11 a 20 quartos" />
-                  <span class="opt-icon"></span>
-                  <span class="opt-text">11 a 20 quartos</span>
-                </label>
-                <label class="opt-label">
-                  <input type="radio" name="num_quartos" value="21 a 30 quartos" />
-                  <span class="opt-icon"></span>
-                  <span class="opt-text">21 a 30 quartos</span>
-                </label>
-                <label class="opt-label">
-                  <input type="radio" name="num_quartos" value="Mais de 30 quartos" />
-                  <span class="opt-icon"></span>
-                  <span class="opt-text">Mais de 30 quartos</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="error-msg" id="err1">Preencha todos os campos e selecione todas as opções desta etapa.</div>
+            <div class="error-msg" id="err1">Confirme seu e-mail e selecione como gerencia as reservas.</div>
 
             <div class="form-nav">
               <button type="button" class="btn-next" onclick="goNext(1)">
@@ -877,7 +919,7 @@
 
             <div class="question-block">
               <div class="question-label">
-                <span class="q-num">3</span>
+                <span class="q-num">2</span>
                 Quantas reservas você recebe por mês em média?
               </div>
               <div class="options-grid two-col">
@@ -906,7 +948,7 @@
 
             <div class="question-block">
               <div class="question-label">
-                <span class="q-num">4</span>
+                <span class="q-num">3</span>
                 Qual é a sua taxa de ocupação média?
               </div>
               <div class="options-grid two-col">
@@ -940,7 +982,7 @@
 
             <div class="question-block">
               <div class="question-label">
-                <span class="q-num">5</span>
+                <span class="q-num">4</span>
                 Quais canais de venda você usa? <em style="font-weight:400;color:var(--gray-400);font-size:.82rem;">(pode marcar mais de um)</em>
               </div>
               <div class="options-grid">
@@ -990,7 +1032,7 @@
 
             <div class="question-block">
               <div class="question-label">
-                <span class="q-num">6</span>
+                <span class="q-num">5</span>
                 Qual é a sua maior dificuldade no dia a dia?
               </div>
               <div class="options-grid">
@@ -1029,7 +1071,7 @@
 
             <div class="question-block">
               <div class="question-label">
-                <span class="q-num">7</span>
+                <span class="q-num">6</span>
                 Você tem equipe para ajudar na gestão?
               </div>
               <div class="options-grid two-col">
@@ -1058,7 +1100,7 @@
 
             <div class="question-block">
               <div class="question-label">
-                <span class="q-num">8</span>
+                <span class="q-num">7</span>
                 O que mais te impede de crescer hoje? <em style="font-weight:400;color:var(--gray-400);font-size:.82rem;">(pode marcar mais de um)</em>
               </div>
               <div class="options-grid">
@@ -1092,7 +1134,7 @@
 
             <div class="question-block">
               <div class="question-label">
-                <span class="q-num">9</span>
+                <span class="q-num">8</span>
                 O que você mais espera de uma solução como o Checkin Na Mão?
               </div>
               <div class="field-wrap">
@@ -1200,8 +1242,7 @@
         const email = document.getElementById('email').value.trim();
         const emailOk = email !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         const gestao  = document.querySelector('input[name="gestao_reservas"]:checked');
-        const quartos = document.querySelector('input[name="num_quartos"]:checked');
-        ok = emailOk && gestao && quartos;
+        ok = emailOk && gestao;
       } else if (step === 2) {
         const reservas = document.querySelector('input[name="reservas_mes"]:checked');
         const taxa     = document.querySelector('input[name="taxa_ocupacao"]:checked');
@@ -1240,7 +1281,6 @@
         website:              document.querySelector('input[name="website"]').value,
         email:                document.getElementById('email').value.trim().toLowerCase(),
         gestao_reservas:      document.querySelector('input[name="gestao_reservas"]:checked')?.value || '',
-        num_quartos:          document.querySelector('input[name="num_quartos"]:checked')?.value || '',
         reservas_mes:         document.querySelector('input[name="reservas_mes"]:checked')?.value || '',
         taxa_ocupacao:        document.querySelector('input[name="taxa_ocupacao"]:checked')?.value || '',
         canais_venda:         canais,
