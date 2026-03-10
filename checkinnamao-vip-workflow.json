@@ -28,7 +28,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// =============================================\n// PREPARAR E NORMALIZAR DADOS\n// =============================================\nconst data = $input.item.json;\n\nreturn {\n  nome:                String(data.nome         || '').trim(),\n  email:               String(data.email        || '').trim().toLowerCase(),\n  whatsapp:            String(data.whatsapp     || '').trim(),\n  pousada_nome:        data.pousada_nome ? String(data.pousada_nome).trim() : '',\n  quartos:             data.quartos     ? String(data.quartos).trim()     : '',\n  cidade:              data.cidade      ? String(data.cidade).trim()      : '',\n  status:              'novo',\n  diagnostico_enviado: false,\n  url_origem:          data.url_origem  || '',\n  criado_em:           new Date().toISOString()\n};"
+        "jsCode": "// =============================================\n// PREPARAR E NORMALIZAR DADOS\n// =============================================\nconst data = $input.item.json;\n\nreturn {\n  nome:                String(data.nome         || '').trim(),\n  email:               String(data.email        || '').trim().toLowerCase(),\n  whatsapp:            String(data.whatsapp     || '').trim(),\n  pousada_nome:        data.pousada_nome ? String(data.pousada_nome).trim() : '',\n  quartos:             data.quartos     ? Number(data.quartos)            : null,\n  cidade:              data.cidade      ? String(data.cidade).trim()      : '',\n  status:              'novo',\n  diagnostico_enviado: false,\n  url_origem:          data.url_origem  || ''\n};"
       },
       "id": "a1b2c3d4-0003-0003-0003-000000000003",
       "name": "Preparar Dados",
@@ -41,7 +41,7 @@
         "operation": "insertRow",
         "tableId": {
           "__rl": true,
-          "value": "leads_vip_pousada",
+          "value": "checkin_mao",
           "mode": "name"
         },
         "dataToSend": "autoMapInputData"
@@ -155,7 +155,7 @@
         "operation": "updateRow",
         "tableId": {
           "__rl": true,
-          "value": "leads_vip_pousada",
+          "value": "checkin_mao",
           "mode": "name"
         },
         "rowId": "={{ $('Salvar no Data Table').item.json.id }}",
