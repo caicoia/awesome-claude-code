@@ -86,25 +86,14 @@
     .logo-wrap {
       display: flex;
       align-items: center;
-      gap: 1rem;
       text-decoration: none;
       flex-shrink: 0;
     }
 
-    .logo-icon {
-      width: 72px;
-      flex-shrink: 0;
+    .logo-img {
+      width: 220px;
+      height: auto;
     }
-
-    .logo-text {
-      line-height: 1.1;
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--white);
-      letter-spacing: -.01em;
-    }
-
-    .logo-text span { color: var(--teal-mid); }
 
     /* Hero content */
     .hero-content { max-width: 500px; }
@@ -828,16 +817,11 @@
 
     <!-- Logo -->
     <a href="#" class="logo-wrap">
-      <svg class="logo-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="40" cy="40" r="40" fill="rgba(0,171,163,0.25)"/>
-        <path d="M40 14C32.268 14 26 20.268 26 28C26 38.5 40 54 40 54C40 54 54 38.5 54 28C54 20.268 47.732 14 40 14Z" fill="white" opacity=".9"/>
-        <path d="M40 14C32.268 14 26 20.268 26 28C26 38.5 40 54 40 54C40 54 54 38.5 54 28C54 20.268 47.732 14 40 14Z" fill="#00ABA3" opacity=".7"/>
-        <path d="M33 28L38 33L48 23" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- hand -->
-        <path d="M28 58C28 58 24 55 22 62H58C56 55 52 58 52 58L46 50H34L28 58Z" fill="white" opacity=".85"/>
-        <path d="M34 50C34 50 33 44 38 44H42C47 44 46 50 46 50" fill="white" opacity=".85"/>
-      </svg>
-      <div class="logo-text">Checkin<br /><span>na Mão</span></div>
+      <img
+        class="logo-img"
+        src="https://checkinnamao.com.br/wp-content/uploads/2025/10/Logomarca-Checkin-na-Mao-horizontal-branco-1024x492.png"
+        alt="Checkin Na Mão"
+      />
     </a>
 
     <!-- Content -->
