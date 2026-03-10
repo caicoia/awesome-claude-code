@@ -1183,7 +1183,7 @@
     document.getElementById('vip').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const pousada = document.getElementById('pousada-nome').value.trim();
     const quartos = document.getElementById('quartos').value;
     const cidade  = document.getElementById('cidade').value.trim();
@@ -1193,9 +1193,45 @@
       return;
     }
 
-    const nome = document.getElementById('nome').value.trim();
-    document.getElementById('modal-nome').textContent = nome.split(' ')[0];
-    document.getElementById('modal').classList.add('open');
+    const btn = document.querySelector('#step-2 .btn-submit');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ Enviando...';
+    btn.disabled = true;
+
+    try {
+      const response = await fetch('https://n8n.caico-ai.cloud/webhook/checkinnamao-vip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome:         document.getElementById('nome').value.trim(),
+          email:        document.getElementById('email').value.trim(),
+          whatsapp:     document.getElementById('whatsapp').value.trim(),
+          pousada_nome: pousada,
+          quartos:      quartos,
+          cidade:       cidade,
+          website:      '',   // honeypot anti-spam
+          url_origem:   window.location.href,
+          user_agent:   navigator.userAgent,
+          timestamp:    new Date().toISOString()
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const nome = document.getElementById('nome').value.trim();
+        document.getElementById('modal-nome').textContent = nome.split(' ')[0];
+        document.getElementById('modal').classList.add('open');
+      } else {
+        throw new Error('Resposta inesperada do servidor');
+      }
+    } catch (err) {
+      console.error('Erro ao enviar formulário:', err);
+      alert('Ops! Algo deu errado. Tente novamente ou fale com a gente pelo WhatsApp.');
+    } finally {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }
   }
 
   function handleModalClick(e) {
