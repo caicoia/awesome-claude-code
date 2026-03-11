@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --teal:      #00ABA3;
+  --teal-d:    #008F89;
+  --teal-l:    #E6F7F6;
+  --teal-mid:  #00C4BB;
+  --amber:     #F5A623;
+  --amber-l:   #FEF3C7;
+  --dark:      #1A2E35;
+  --dark-mid:  #2C4A52;
+  --sidebar-w: 240px;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F9FAFB;
+    color: #1F2937;
+  }
+}
