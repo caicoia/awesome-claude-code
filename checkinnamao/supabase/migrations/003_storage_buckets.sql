@@ -31,7 +31,7 @@ VALUES (
 CREATE POLICY "pousada_media_owner_upload" ON storage.objects
   FOR INSERT WITH CHECK (
     bucket_id = 'pousada-media'
-    AND auth.user_role() IN ('owner', 'super_admin')
+    AND public.current_user_role() IN ('owner', 'super_admin')
   );
 
 -- pousada-media: leitura pública (imagens do site)
@@ -42,7 +42,7 @@ CREATE POLICY "pousada_media_public_read" ON storage.objects
 CREATE POLICY "pousada_media_owner_delete" ON storage.objects
   FOR DELETE USING (
     bucket_id = 'pousada-media'
-    AND auth.user_role() IN ('owner', 'super_admin')
+    AND public.current_user_role() IN ('owner', 'super_admin')
   );
 
 -- guest-documents: somente usuários autenticados do mesmo tenant
@@ -61,5 +61,5 @@ CREATE POLICY "guest_docs_tenant_upload" ON storage.objects
 CREATE POLICY "guest_docs_owner_delete" ON storage.objects
   FOR DELETE USING (
     bucket_id = 'guest-documents'
-    AND auth.user_role() IN ('owner', 'super_admin')
+    AND public.current_user_role() IN ('owner', 'super_admin')
   );
