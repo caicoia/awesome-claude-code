@@ -10,7 +10,7 @@ export interface Database {
         Row: {
           id: string
           name: string
-          stripe_price_id: string | null
+          asaas_plan_id: string | null
           price_brl: number
           max_rooms: number | null
           max_staff: number | null
@@ -225,8 +225,8 @@ export interface Database {
         Row: {
           id: string
           tenant_id: string | null
-          stripe_subscription_id: string | null
-          stripe_customer_id: string | null
+          asaas_subscription_id: string | null
+          asaas_customer_id: string | null
           plan_id: string | null
           status: string
           current_period_start: string | null

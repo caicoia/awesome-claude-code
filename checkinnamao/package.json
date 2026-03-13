@@ -21,9 +21,7 @@
     "recharts": "^2.13.3",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.5",
-    "date-fns": "^4.1.0",
-    "stripe": "^17.4.0",
-    "@stripe/stripe-js": "^4.9.0"
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
